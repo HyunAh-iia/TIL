@@ -31,12 +31,12 @@ $ sshpass -p '패스워드' scp -o StrictHostKeyChecking=no -P 포트번호 /로
     - `-o` 옵션을 주어 해결
 - `No such file or directory`
     - 이 에러는 정말 이해할 수 없지만 명령어 순서를 다르게 조합하였더니 해결함
-    - 기본적으로 /로컬위치 /리모트위치는 명령어 순서에 따라 다르게 조절할 수 있음
+    - 기본적으로 명령어 순서는 `/로컬위치 /리모트위치` 혹은 `/리모트위치 /로컬위치`로 순서 조합가능함(로컬위치는 다른 서버를 의미하기도 함)
     - scp에 대한 옵션 설명을 읽으면 명령어 순들을 이해할 수 있음 [링크](https://itgameworld.tistory.com/m/11)
     - [스택오버플로우 링크](https://stackoverflow.com/questions/50096/how-to-pass-password-to-scp)  
 - `파일 is Not a directory`
     - 도착 주소(예시에서는 리모트)의 주소가 `/`로 끝나면 위와 같이 명확하지 않은 에러메시지를 리턴
     - 에러와 메시지가 일치하지 않는 버그
     - Bug 1768 - scp: wrong error message when destination directory ends with a slash and is missing
-    - 스택오버플로우 링크 : [https://stackoverflow.com/questions/38628550/scp-copying-error-not-a-directory](https://stackoverflow.com/questions/38628550/scp-copying-error-not-a-directory)
-    - 관련 버그번호 : [https://bugzilla.mindrot.org/show_bug.cgi?id=1768](https://bugzilla.mindrot.org/show_bug.cgi?id=1768)
+    - [스택오버플로우 링크](https://stackoverflow.com/questions/38628550/scp-copying-error-not-a-directory)
+    - [관련 버그번호](https://bugzilla.mindrot.org/show_bug.cgi?id=1768)
