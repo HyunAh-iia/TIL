@@ -9,6 +9,11 @@
 ##### Spring
 - not yet
 
+
+##### JPA
+- [@ElementCollecion](jpa/ElementCollection/ElementCollection-annotaion.md)
+- [자식 엔티티가 변경되지 않을 때 (feat. cascade)](jpa/자식엔티티가-변경되지-않을때-casecade/자식엔티티가-변경되지-않을때-cascade.md) 
+
 ##### Java
 - not yet
 
