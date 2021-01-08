@@ -1,32 +1,58 @@
 @ElementCollection
 ---
-http://redutan.github.io/2018/05/29/ddd-values-on-jpa
-@ElementCollection은 Basic Type이나 Embeddable Class에 사용된다.
-Embeddable 설명 추가
+RDB에는 컬렉션과 같은 형태의 데이터를 컬럼에 저장할 수 없기 때문에, 별도의 테이블을 생성하여 컬렉션을 관리해야한다.
+이때 컬렉션 객체임을 JPA에게 알려주는 어노테이션이 `@ElementCollection`이다.
+JPA는 `@Entity`가 아닌 Basic Type이나 Embeddable Class로 정의된 컬렉션을 테이블로 생성하며 One-To-Many 관계를 다룬다.
 
-@ElementCollection
-@CollectionTable과 함께 쓰는 경우
+아래에는 스터디그룹과 멤버 구성을 관리하는 Entity이다.
+스터디 그룹에 대해 멤버는 1:N 관계로 구성되며, 멤버는 다양한 스터디 그룹에 참여할 수 있다.
 
-설명 잘되어있음 
-https://blog.naver.com/PostView.nhn?blogId=qjawnswkd&logNo=222074814530
+- StudyGroup entity : Entity, 스터디 그룹을 관리
+  - id : PK, 스터디 그룹을 대표하는 값
+  - topicTags : Basic Collection, 스터디 주제
+  - GroupMember : Embedded Collection, 스터디 멤버
+  
+```java
+@Entity
+public class StudyGroup {
+	@Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    // Basic type
+    @ElementCollection(fetch = FetchType.LAZY)
+    private Set<String> topicTags = new HashSet<String>();
 
-3. @ElementCollection을 사용하는 경우
-  3-0 Entity가 아닌 단순한 형태의 객체 집합을 정의하고 관리하는 방법이다.
-  3-1 한 테이블에서 연관된 다른 테이블에 대한 정보를 다룬다. One-To-Many 관계를 다룬다.
-    3-1-1 @Embeddable 객체와 관계를 정의하여 사용할 수 있다.
-    3-1-2 자바의 primitive와 그들의 wrapper클래스들와 관계를 정의하는데 사용한다.( Integer, Double, ...)
-      3-1-2-1 @Entity 를 받는 속성을 정의할 수 없다. 그렇게 하려면 @OneToMany를 사용해야 한다.
-    3-1-3 이 말은 이 방식으로는 아래와 같은 형식의 간단한 Collection의 타입만을 사용할 수 있다는 말이다.
+    // Embedded type
+    @ElementCollection
+    @CollectionTable(name="study_group_member", joinColumns = @JoinColumn(name= "study_group_id", referencedColumnName = "id"))
+    private List<StudyGroupMember> members = new HashSet<StudyGroupMember>();
+}
+```
+```java
+@Embeddable
+public class StudyGroupMember {
+    private UUID memberId;
+    private Boolean isOwner;
+}
+```
+-------
 
+언뜻 연관 관계만 봤을 때에는 `@ElementCollection`과 JPA `@Entity`의 '@OneToMany`가 유사하게 느껴진다.
+이 둘의 차이점은 간단하게 알아보자.
 
-private Set<String> courses = new HashSet<String>();
-private List<Integer> results = new ArrayList<>();
- 
-  3-2 보통 관계하는 테이블을 별도의 자바 Entity로 구성하지 않는 경우에 사용한다.
-    3-2-1 물론 별도의 Entity를 구성해도 사용이 가능하지만 그럴 경우 Entity에 @Id를 지정해야 하니 귀찮아진다.
-  3-3 이 annotation이 설정된 속성은 부모 클래스와 별도로 저장하거나 테이블에서 가져올 수 없다.
+- @ElementCollection:
+  - 연관된 부모 Entity 하나에만 연관되어 관리된다. (부모 Entity와 독립적으로 사용 X)
+  - 항상 부모와 함께 저장되고 삭제되므로 cascade 옵션은 제공하지 않는다. (cascade = ALL 인 셈)
+  - 부모 Entity Id와 추가 컬럼(basic or embedded 타입)으로 구성된다.
+  - 기본적으로 식별자 개념이 없으므로 컬렉션 값 변경 시, 전체 삭제 후 새로 추가한다.
 
-    3-3-1 그렇게 하려면 @Entity로 Entity를 생성해야 한다.
-  3-4 cascade 옵션을 제공하지 않는다.
-  3-5 관계 테이블의 데이터는 무조건 항상 부모와 함께 저장되고 삭제되고 관리된다.
-    3-5-1 아래의 경우 course 테이블의 정보는 항상 Student 클래스와 함께 관리되어야 한다는 의미가 된다.
+- @Entity 연관 (@OneToMany / @ManyToMany):
+  - 다른 Entity에 의해 관리될 수도 있다.
+  - join table이나 컬럼은 보통 ID만으로 연관을 맺는다.
+
+---
+
+> 참고링크 
+- [stackoverflow - Difference between @OneToMany and @ElementCollection?](https://stackoverflow.com/questions/8969059/difference-between-onetomany-and-elementcollection)
+- [JPA - 값 타입 컬렉션](https://blog.naver.com/PostView.nhn?blogId=qjawnswkd&logNo=222074814530)
