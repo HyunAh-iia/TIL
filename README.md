@@ -23,6 +23,9 @@
 ##### Linux
 - [SSH 파일 업로드 시 패스워드 함께 넘기기](linux/SSH-파일업로드-패스워드/SSH-파일업로드-패스워드.md)
 
+##### Firebase
+- [Firebase Authentication](firebase/auth/firebase-auth.md)
+
 ##### 생각정리
 - [2020년 회고](생각정리/2020년-회고/2020년-회고.md)
 - [SI에서-스타트업으로](생각정리/SI에서-스타트업으로/SI에서-스타트업으로.md)
