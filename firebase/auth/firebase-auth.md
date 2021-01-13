@@ -1,9 +1,31 @@
 # Firebase Authentication
-Google Firebase에서는 사용자 계정 생성 방식을 다양하게 제공한다. 그 중 이메일, Google, Github 로그인 방식을 선택하여 실습 진행하였다.
-이 과정에서 유용했던 공식문서나 팁이 있다면 정리하겠다. 이미 Firebase 프로젝트 생성 및 SDK 등록이 되어있다고 가정하겠다.
+Google Firebase는 사용자 인증 시 필요한 백엔드 서비스와 인증 UI를 제공한다.
+사용자 로그인 처리 시 Firebase UI를 통한 인증도 있고, SDK를 사용해 하나 이상의 로그인을 제공해주는 방법이 있다. 
 
-대부분의 출처는 [노마드코더 강의](https://nomadcoders.co/nwitter) 와 [Firebase 공식문서](https://firebase.google.com/docs/auth/?authuser=0) 임을 밝힌다.
-[샘플코드는 Github에 올려두었다](https://github.com/HyunAh-iia/react-firebase-nwitter)
+>대부분의 출처는 [노마드코더 강의](https://nomadcoders.co/nwitter) 와 [Firebase 공식문서](https://firebase.google.com/docs/auth/?authuser=0) 임을 밝힌다.
+ [샘플코드](https://github.com/HyunAh-iia/react-firebase-nwitter) 는 Github에 올려두었다
+ 
+- 인증 방식
+   - 이메일/비밀번호 기반
+   - 익명
+   - 제휴 공급업체(Google, Facebook, Twitter, Github) 통합
+   - 전화번호 인증
+   - 커스텀 인증 시스템 통합
+
+- 작동 원리
+   - 사용자에게 앱에 로그인 하기 위해 인증 정보를 요청 (이메일/패스워드 혹은 Google/Facebook 등 제휴업체 로그인 방식)
+   - Firebase는 우리를 대신해 사용자에게 전달받은 정보로 이메일/비밀번호 인증 혹은 제휴 ID 공급업체로 받은 OAuth 토큰을 통해 인증함
+   - 이 인증 정보를 우리가 서비스에 삽입한 Firebase 인증 SDK에 전달함
+   - 우리는 이 인증 정보를 확인하여 클라이언트에 적절한 응답을 반환함
+
+- 참고
+   - 로그인이 정상적으로 수행된 경우 사용자 기본 프로필에 접근할 수 있고, 다른 Firebase 서비스에 저장된 데이터에 접근 권한 제어 가능
+   - 인증을 마친 사용자는 기본적으로 Firebase 실시간 데이터베이스와 Cloud Storage에서 데이터를 읽고 쓸 수 있음
+
+다양한 사용자 계정 생성 방식 중 이메일, Google, Github 로그인 방식을 선택하여 실습 진행하였다.
+이 과정에서 유용했던 공식문서나 팁이 있다면 정리하겠다. 
+
+이미 Firebase 프로젝트 생성 및 서비스에 SDK 등록이 되어있다고 가정하겠다. 자세한 내용은 [자바스크립트 프로젝트에 Firebase 추가](https://firebase.google.com/docs/web/setup?hl=ko) 를 참고하길 바란다. 
 
 --- 
 
@@ -37,9 +59,10 @@ Google Firebase에서는 사용자 계정 생성 방식을 다양하게 제공�
     
 - 회원가입 결과 확인하기 (Github 샘플코드를 올려두었다)
     - 이메일/패스워드 입력 후 회원가입 버튼 클릭
-     ![](images/siginup1.png)
+      ![](images/siginup1.png)
     - Firebase 프로젝트에 접속해 `Authentication - Users`에 보면 회원이 등록된 것을 확인할 수 있음
-    ![](images/siginup2.png)
+      ![](images/siginup2.png)
+ 
 
 ### 로그인 상태 추적을 위한 관찰자 Listener 등록 (auth().onAuthStateChanged)
 아래 React 코드는 Application이 시작되면 `authService.currentUser`를 통해 로그인되어 있는 사용자가 존재하는 지 판단한다. 하지만 이 경우 Firebase가 초기화되기 전에 수행되므로 항상 로그아웃 된 상태라고 판단하게 된다.
@@ -114,4 +137,24 @@ export default App;
 ```
 여기까지 하면 기본적인 회원가입, 로그인이 구현된다.
 
+### 소셜 로그인
+로그인하는 API에 대해서는 firebase.auth에서 `signIn*` 으로 시작하는 메서드를 보면 알 수 있다.
+제휴 공급업체 로그인(소셜로그인)을 위해 `signInWithPopup`과 `signInWithRedirect`이 있는데, 비교적 간단한 Popup 방식을 선택하였다.  
+![](images/sociallogin1.png)
+`signInWithPopup`에 대한 설명은 [공식문서](https://firebase.google.com/docs/reference/js/firebase.auth.Auth?hl=ko#signinwithpopup) 를 참고하자.
+
+[샘플코드](https://github.com/HyunAh-iia/react-firebase-nwitter/commits?author=HyunAh-iia&since=2020-12-31&until=2021-01-12) 는 깃헙에 올려두었다.
+
+1. 공식문서의 안내대로 깃헙 로그인을 해보자.
+![](images/sociallogin2.png)
+2. 아래와 같이 팝업이 뜨면서 깃헙 로그인 페이지로 이동한다.
+![](images/sociallogin3.png)
+3. 깃헙 로그인 후에는 사용자 프로필에 접근 가능해지며, Firebase 프로젝트에서 Github을 통해 가입한 사용자가 등록된다. 
+![](images/sociallogin4.png) 
+
+
+
+### 로그아웃
+auth의 [signout 메서드](https://firebase.google.com/docs/reference/js/firebase.auth.Auth?hl=ko#signout) 를 활용하여 로그아웃한
+[샘플코드](https://github.com/HyunAh-iia/react-firebase-nwitter/commit/f459a0eb32bb81e8c618293a93436860642a80e9) 
 --- 
