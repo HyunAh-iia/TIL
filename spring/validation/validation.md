@@ -7,6 +7,10 @@ Java 8 버전 이상의 버전이 요구되며, Spring boot 2.3 이후부터는 
      <groupId>org.springframework.boot</groupId> 
      <artifactId>spring-boot-starter-validation</artifactId> 
  </dependency>
+
+or
+
+implementation 'org.springframework.boot:spring-boot-starter-validation'
 ```
 
 ---
