@@ -13,7 +13,7 @@
 ##### JPA
 - [@ElementCollecion](jpa/ElementCollection/ElementCollection-annotaion.md)
 - [자식 엔티티가 변경되지 않을 때 (feat. cascade)](jpa/자식엔티티가-변경되지-않을때-casecade/자식엔티티가-변경되지-않을때-cascade.md) 
-
+- [error - Multiple representations of the same entity](jpa/error/multiple-representations-of-the-same-entity/multiple-representations-of-the-same-entity.md)
 ##### Java
 - not yet
 
