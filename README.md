@@ -7,7 +7,7 @@
 # 목차
 ---
 ##### Spring
-- not yet
+- [Spring Validation](spring/validation/validation.md)
 
 
 ##### JPA
@@ -25,6 +25,7 @@
 
 ##### Firebase
 - [Firebase Authentication](firebase/auth/firebase-auth.md)
+- [Firestore](firebase/cloud-firestore/cloud-firestore.md)
 
 ##### 생각정리
 - [2020년 회고](생각정리/2020년-회고/2020년-회고.md)
