@@ -73,6 +73,69 @@ default로 `entity_copy_observer` 옵션이 `disallow`되어 있다. 이를 활�
 일단... 현상은 해결되었지만 다른 1:N 관계에서 동일한 방식으로 저장시에 해당 옵션이 없어도 정상 저장 된 걸 보면 올바른 해결방법이 아닌것같다.
 출력된 에러메시지 자체에 대한 원인과 해결방법은 `entity_copy_observer` 설정이 맞지만, 음... 일단 내 케이스에 대해 더 비교해볼 필요성이 있다.
 
+### 그렇다. 원인은 다른 곳에 있었다.
+`error : java.lang.IllegalStateException: Multiple representations of the same entity`라는 에러메시지에 대한 해결은 위 내용을 따르는 게 맞다.
+하지만 이 에러가 발생하는 것 자체가 이상한 상황이라서 의아했었다. 그전에도 1:N 관계에서 부모를 통해 N개의 자식 Entity를 저장했음에도 아무런 문제가 발견하지 않았었다.
+어째 해결은 하긴 했다만 내심 찝찝해하고 있었는데, 진짜 원인을 찾았다.
+
+바로 자식의 Entity 클래스와 Id 클래스가 씽크가 맞지 않았기 때문이었다. (인수인계 받았던 터라 ID class 선언부는 보지 않아서 파악이 늦어졌다ㅠㅠ)
+
+- 자식 Entity
+```
+@Getter
+@IdClass(UserSurveyAnswerId.class)
+@Entity
+public class UserSurveyAnswer {
+    @Id
+    @ManyToOne(targetEntity = UserSurvey.class)
+    @JoinColumn(name = "user_survey_id", referencedColumnName = "id")
+    private UserSurvey userSurvey;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "survey_question_id", referencedColumnName = "id")
+    private SurveyQuestion surveyQuestion;
+
+    ...
+}
+``` 
+
+
+- 자식 Entity의 Id class
+```
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Getter
+public class UserSurveyAnswerId implements Serializable {
+    @Column(name = "user_survey_id", updatable = false, insertable = false)
+    private Long userSurveyId;
+
+    @Column(name = "survey_question_id", updatable = false, insertable = false)
+    private Long surveyQuestionId;
+}
+```
+
+자식 Entity는 복합키로 `userSurvey`와 `surveyQuestion`를 가르키고 있는데, 자식 ID class는 `userSurveyId`와 `surveyQuestionId`를 가르키고 있다. 심지어 `insertable = false, updateable = false`
+Id class에서 불필요한 어노테이션을 제거하고, 단순 ID 필드를 보던 것을 Entity와 마찬가지로 객체로 복합키를 묶도록 변경하였다.
+:) 후.. 이제 잘 된다.
+
+아래와 같이 수정했다.
+- 자식 Id class
+```
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Getter
+public class UserSurveyAnswerId implements Serializable {
+    private Long userSurvey;
+    private Long surveyQuestion;
+}
+```
+
+### 해석
+부모 Entity에서 N건의 자식 Entity를 저장할 때, Id class가 가르키고 있던 `userSurveyId`와 `surveyQuestionId` 필드는 null이었다. 동일한 Entity에 대해 복합키가 Null인 (똑같은) 여러 개의 값을 저장하려고 하니  `error : java.lang.IllegalStateException: Multiple representations of the same entity` 에러가 발생한 것이라고 추측한다.
+이 필드를 자식 Entity의 복합키와 동일하게 객체로 변경해주어 문제를 해결하였다.
 
 ---
 참고문서
