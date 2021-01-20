@@ -1,5 +1,7 @@
 JPA 자식 엔티티가 변경되지 않을 때 (feat. cascade)
 ---
+> [블로그](https://prohannah.tistory.com/132)
+
 `cascade`는 특정 Entity의 영속성 상태가 변경되었을 때 이를 연관된 Entity에도 전파시킬 지 선택하는 옵션이다.
 
 특정 Entity에 `@ElementCollecion`으로 관리되던 하위 컬렉션이 `@Entity`로 변경되었는데 `cascade` 옵션이 함께 설정하지 않았다.

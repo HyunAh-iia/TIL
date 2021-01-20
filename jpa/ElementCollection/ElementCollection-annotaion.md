@@ -1,5 +1,7 @@
 @ElementCollection
 ---
+> [블로그](https://prohannah.tistory.com/133)
+
 RDB에는 컬렉션과 같은 형태의 데이터를 컬럼에 저장할 수 없기 때문에, 별도의 테이블을 생성하여 컬렉션을 관리해야한다.
 이때 컬렉션 객체임을 JPA에게 알려주는 어노테이션이 `@ElementCollection`이다.
 JPA는 `@Entity`가 아닌 Basic Type이나 Embeddable Class로 정의된 컬렉션을 테이블로 생성하며 One-To-Many 관계를 다룬다.

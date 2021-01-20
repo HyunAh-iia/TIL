@@ -1,4 +1,6 @@
 # IllegalStateException : Multiple representations of the same entity
+> [블로그](https://prohannah.tistory.com/131)
+
 1:N 관계의 부모 Entity와 자식 Entity를 동시에 저장할 때 에러가 발생했다.
 `error : java.lang.IllegalStateException: Multiple representations of the same entity`
 
