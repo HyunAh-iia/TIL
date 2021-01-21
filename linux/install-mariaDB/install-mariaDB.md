@@ -13,20 +13,22 @@
    $ sudo apt-get autoclean
    ```
    
-2. [MariaDB Repositories 다운로드](https://mariadb.org/download/#mariadb-repositories)
+2. [MariaDB 설치](https://mariadb.org/download/#mariadb-repositories)
+   - MariaDB 공식 홈페이지에서 원하는 OS 버전과 DB 버전을 선택하면 아래 이미지처럼 5줄의 명령어(2~3번)를 안내한다.
    - OS 선택 : Ubuntu 18.04 LTS "bionic"
    - MariaDB Server version : 10.3
-   ```
-   sudo apt-get install software-properties-common dirmngr apt-transport-https
-   sudo apt-key adv --fetch-keys 'https://mariadb.org/mariadb_release_signing_key.asc'
-   sudo add-apt-repository 'deb [arch=amd64,arm64,ppc64el] https://mirror.yongbok.net/mariadb/repo/10.3/ubuntu bionic main'
-   ```
    ![](images/mariadb-repositories.png)
-3. MariaDB 설치
-   ```
-   sudo apt update
-   sudo apt install mariadb-server
-   ```
+   - Repositories 다운로드
+     ```
+     sudo apt-get install software-properties-common dirmngr apt-transport-https
+     sudo apt-key adv --fetch-keys 'https://mariadb.org/mariadb_release_signing_key.asc'
+     sudo add-apt-repository 'deb [arch=amd64,arm64,ppc64el] https://mirror.yongbok.net/mariadb/repo/10.3/ubuntu bionic main'
+     ```
+   - MariaDB 설치
+     ```
+     sudo apt update
+     sudo apt install mariadb-server
+     ```
 
 4. MariaDB 로그인
    ```
@@ -44,19 +46,19 @@
    ```
 5. 비밀번호 설정
    - [MariaDB 10.4 이후 비밀번호 인증방식 변화](https://wnw1005.tistory.com/443?category=823629) (10.3 버전 설치했지만 참고)
-   ```
-    MariaDB [(none)]> select password('비밀번호');
-    +-------------------------------------------+
-    | password('비밀번호')                        |
-    +-------------------------------------------+
-    | *A9BFCD08A9B6CE650A72EFBCB38C8618293EF2B1 |
-    +-------------------------------------------+
-    1 row in set (0.000 sec)
+    ```
+     MariaDB [(none)]> select password('비밀번호');
+     +-------------------------------------------+
+     | password('비밀번호')                        |
+     +-------------------------------------------+
+     | *A9BFCD08A9B6CE650A72EFBCB38C8618293EF2B1 |
+     +-------------------------------------------+
+     1 row in set (0.000 sec) 
 
-    MariaDB [(none)]> update mysql.user set password= '*A9BFCD08A9B6CE650A72EFBCB38C8618293EF2B1' where user = '아이디';
-    Query OK, 1 row affected (0.000 sec)
+     MariaDB [(none)]> update mysql.user set password= '*A9BFCD08A9B6CE650A72EFBCB38C8618293EF2B1' where user = '아이디';
+     Query OK, 1 row affected (0.000 sec)
    
-   ```
+    ```
 6. 권한 부여
    ```
     MariaDB [(none)]> GRANT ALL PRIVILEGES ON *.* to '아이디'@'localhost' IDENTIFIED BY '비밀번호';
