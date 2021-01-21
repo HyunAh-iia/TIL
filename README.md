@@ -22,6 +22,7 @@
 
 ##### Linux
 - [SSH 파일 업로드 시 패스워드 함께 넘기기](linux/SSH-파일업로드-패스워드/SSH-파일업로드-패스워드.md)
+- [Linux에 MariaDB 설치](linux/install-mariaDB/install-mariaDB.md)
 
 ##### Firebase
 - [Firebase Authentication](firebase/auth/firebase-auth.md)
