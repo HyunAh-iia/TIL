@@ -104,3 +104,26 @@ Firebase console을 통해 직접 Collection(RDB에서의 Table)을 생성해줘
     }, []);
 ```
 `tweets` Collection에 변경이 감지되면 사용자가 리프레시를 하지 않더라도 데이터(댓글)를 화면에 다시 출력하는 코드이다.
+
+---
+
+# 색인(index)
+### 복합색인
+두 개 이상의 필드를 사용하여 쿼리를 조회해보자. 예제에서는 `tweets`라는 컬렉션(테이블)에서 `userId`가 x인 문서(행)을 찾아 `createdAt` 순으로 정렬한다.
+```javascript    
+const getMyTweets = async () => {
+           const tweets = await dbService.collection("tweets")
+               .where("userId", "==", userObj.uid)
+               .orderBy("createdAt", "desc")
+               .get();
+           console.log(tweets.docs.map(doc=> doc.data()));
+       }
+```
+별다른 설정없이 복합 필드로 쿼리를 조회할 경우 아래와 같은 메시지가 발생한다.
+![](images/firebase_index_필요_에러.png)
+pre-made query를 통해 데이터베이스에게 이 쿼리를 사용할 거라고 미리 알려줘야한다.
+에러메시지가 안내하는 링크를 타고 들어가면 Firestore의 친절한 가이드를 만나게 된다.
+> Cloud Firestore는 단일 필드 색인에서 아직 지원하지 않는 복합 쿼리에 복합 색인을 사용합니다(예: 등호 및 범위 연산자 결합).
+
+![](images/firstore_index(색인)_생성.png)
+기본적으로 오름차순으로 인덱스 생성을 권유한다. 최근 문서를 먼저 보고싶기 때문에 생성일시(createdAt)을 내림차순으로 변경하였다.
