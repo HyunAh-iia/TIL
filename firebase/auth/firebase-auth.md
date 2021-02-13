@@ -158,3 +158,23 @@ export default App;
 auth의 [signout 메서드](https://firebase.google.com/docs/reference/js/firebase.auth.Auth?hl=ko#signout) 를 활용하여 로그아웃한
 [샘플코드](https://github.com/HyunAh-iia/react-firebase-nwitter/commit/f459a0eb32bb81e8c618293a93436860642a80e9) 
 --- 
+# firebase.User
+사용자 계정 관련하여 프로필 정보 조회, 수정, 삭제, 토큰, 이메일 인증, 비밀번호 변경, 인증방식 등등을 관리할 수 있다.
+자세한 기능은 [firebase.user 공식문서](https://firebase.google.com/docs/reference/js/firebase.User) 를 참고하자.
+기본적으로 Firebase에서 제공하는 사용자 프로필 정보는 `displayName`와 `photoURL`밖에 없다. 부가적인 정보를 더 담고 싶은 경우 별도의 컬렉션을 만들어 관리하면 된다. 
+혹여 이메일을 바꾸고 싶은 경우에는 `verifyBeforeUpdateEmail`이나 `sendEmailVerification`와 같은 메서드를 활용하면 된다.
+
+### 사용자 프로필 변경
+```javascript
+const user = firebase.auth().currentUser;
+ 
+user.updateProfile({
+  displayName: "Jane Q. User",
+  photoURL: "https://example.com/jane-q-user/profile.jpg"
+}).then(function() {
+  var displayName = user.displayName;
+  var photoURL = user.photoURL;
+}, function(error) {
+  // An error happened.
+});
+```
