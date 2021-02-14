@@ -31,9 +31,11 @@
   캐시를 지우면 되는데, 특정버전 이후 디렉토리 구조가 조금 바뀌었는 지 나는 두번째로 해야 접근가능했다.
    - `rm -rf node_modules/gh-pages/.cache` 
    - `rm -rf node_modules/.cache/gh-pages`
-2. github permission denied..이건..내죄지..하아..
-    ```
-    remote: Permission to HyunAh-iia/react-firebase-nwitter.git denied to hyunah-kim.
-    fatal: unable to access 'https://github.com/HyunAh-iia/react-firebase-nwitter.git/': The requested URL returned error: 403
-    ```
+2. github permission denied
+    - fetch/push 권한은 있는데 `gh-pages` 시 권한이 없다며 반려되는 현상 
+      ```
+      remote: Permission to HyunAh-iia/react-firebase-nwitter.git denied to hyunah-kim.
+      fatal: unable to access 'https://github.com/HyunAh-iia/react-firebase-nwitter.git/': The requested URL returned error: 403
+      ```
+    - [도움받은 블로그](https://michigusa-nlp.tistory.com/74)
 
