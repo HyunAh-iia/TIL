@@ -27,9 +27,8 @@ Google Firebase는 사용자 인증 시 필요한 백엔드 서비스와 인증 
 
 이미 Firebase 프로젝트 생성 및 서비스에 SDK 등록이 되어있다고 가정하겠다. 자세한 내용은 [자바스크립트 프로젝트에 Firebase 추가](https://firebase.google.com/docs/web/setup?hl=ko) 를 참고하길 바란다. 
 
---- 
-
-# Firebase 계정 생성 및 로그인 방법 선택
+Firebase 계정 생성 및 로그인 방법 선택
+---
 - Firebase Authentication - `Sign-in method` 메뉴에서 계정 생성 방식 선택
 - [참고] Github 같은 경우 OAuth 토큰을 발급받아야해서 아래와 같이 진행
 
@@ -41,9 +40,8 @@ Google Firebase는 사용자 인증 시 필요한 백엔드 서비스와 인증 
 4. Github Oauth 토큰 발급 후 클라이언트 ID와 시크릿 키를 Firebase Github 로그인 연동 설정창에 입력
     ![](images/firebase-github2.png)
 
---- 
-
-# Firebase 로그인
+Firebase 로그인
+---
 [Firebase 로그인 방법 샘플코드](https://github.com/HyunAh-iia/react-firebase-nwitter/commit/0a77b969b2159cae946886b421b1947653e6b84b)
 
 ### 이메일/패스워드 기반의 계정 생성 및 로그인
@@ -153,12 +151,12 @@ export default App;
 ![](images/sociallogin4.png) 
 
 
-
 ### 로그아웃
 auth의 [signout 메서드](https://firebase.google.com/docs/reference/js/firebase.auth.Auth?hl=ko#signout) 를 활용하여 로그아웃한
 [샘플코드](https://github.com/HyunAh-iia/react-firebase-nwitter/commit/f459a0eb32bb81e8c618293a93436860642a80e9) 
---- 
-# firebase.User
+
+firebase.User
+---
 사용자 계정 관련하여 프로필 정보 조회, 수정, 삭제, 토큰, 이메일 인증, 비밀번호 변경, 인증방식 등등을 관리할 수 있다.
 자세한 기능은 [firebase.user 공식문서](https://firebase.google.com/docs/reference/js/firebase.User) 를 참고하자.
 기본적으로 Firebase에서 제공하는 사용자 프로필 정보는 `displayName`와 `photoURL`밖에 없다. 부가적인 정보를 더 담고 싶은 경우 별도의 컬렉션을 만들어 관리하면 된다. 
