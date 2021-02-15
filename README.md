@@ -1,14 +1,12 @@
 # Today I Learned
-
 - 🤩2021년 시작🤩
 - 배운 것들을 작은 단위로 커밋하고, 내용을 끌어모아 최종적으로 블로그 포스팅
 - [개인블로그(https://prohannah.tistory.com)](https://prohannah.tistory.com)
 
-# 목차
+목차
 ---
 ##### Spring
 - [Spring Validation](spring/validation/validation.md)
-
 
 ##### JPA
 - [@ElementCollecion](jpa/ElementCollection/ElementCollection-annotaion.md)
@@ -26,7 +24,7 @@
 - [Linux에 MariaDB 설치](linux/install-mariaDB/install-mariaDB.md)
 
 ##### Git
-- 
+- [git stash](git/git-stash-특정파일들-선택/git-stash-특정파일들-선택.md)
 
 ##### Github
 - [Github Page](github/github-page-hosting/github-page-hosting.md)
@@ -34,14 +32,18 @@
 
 ##### Firebase
 - [Firebase Authentication](firebase/auth/firebase-auth.md)
+- [Firebase Security](firebase/security/firebase-security.md)
 - [Firestore](firebase/cloud-firestore/cloud-firestore.md)
 
 ##### 생각정리
 - [2020년 회고](생각정리/2020년-회고/2020년-회고.md)
 - [SI에서 스타트업으로](https://prohannah.tistory.com/130)
 
-##### 경제
-- [저축으로 노후준비가 가능할까?](경제/저축으로-노후준비가-가능할까/저축으로-노후준비가-가능할까.md)
+##### React
+- [트위터 클론코딩](https://github.com/HyunAh-iia/react-firebase-nwitter)
+
+##### React-native
+- [날씨앱 클론코딩](https://github.com/HyunAh-iia/react-native-weather)
 
 ##### intelliJ
 - [인텔리제이 마크다운 미리보기가 안보일 때](/intellij/intelij-markdown-preview가-안보일때/intelij-markdown-preview가-안보일때.md)
