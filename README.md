@@ -1,7 +1,6 @@
 # Today I Learned
 - 🤩2021년 시작🤩
-- 배운 것들을 작은 단위로 커밋하고, 내용을 끌어모아 최종적으로 블로그 포스팅
-- [개인블로그(https://prohannah.tistory.com)](https://prohannah.tistory.com)
+- 배운 것들을 작은 단위로 커밋하고, 내용을 끌어모아 최종적으로 [개인블로그](https://prohannah.tistory.com)에 포스팅
 
 목차
 ---
@@ -14,7 +13,7 @@
 - [error - Multiple representations of the same entity](jpa/error/multiple-representations-of-the-same-entity/multiple-representations-of-the-same-entity.md)
 
 ##### Java
-- not yet
+- [Java로 알아보는 느슨한 결합(IoC, DIP, DI, IoC Container)](https://github.com/HyunAh-iia/study-ioc)
 
 ##### HTTP
 - [인터넷 네트워크(통신, IP, TCP, UDP, PORT, DNS)](http/internet-network)
