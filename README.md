@@ -20,6 +20,7 @@
 - [URI와 웹 브라우즈 요청 흐름](http/uri-and-web-browser)
 - [HTTP 기본](http/http)
 - [HTTP 메서드](http/http-method)
+- [HTTP 상태코드와 일시적 리다이렉션(PRG)](http/http-status-code)
 
 ##### Linux
 - [SSH 파일 업로드 시 패스워드 함께 넘기기](linux/SSH-파일업로드-패스워드/SSH-파일업로드-패스워드.md)
