@@ -156,3 +156,44 @@ OReilly의 'Learning PHP'를 읽으며 내가 기존에 알던 언어들과 PHP�
 - 브라우저와 HTML : 브라우저는 `<b>HTML 태그</b>`가 텍스트인지 html 태그인지 구문할 수 없음. 이를 위해 텍스트에 인코딩을 적용하여 브라우저가 `<` 같은 문자를 텍스트로 읽을 수 있도록 함. 브라우저는 `&lt;`과 같은 값을 디코딩하여 정상적인 텍스트로 출력함
 - htmlentities() : 텍스트 중 HTML 태그를 인코딩함
 - strip_tags() : 텍스트 중 HTML 태그를 제거함 (위험)
+
+## 8. 정보 저장: 데이터베이스
+##### PDO와 데이터 조작
+- PHP 데이터 오브젝트(PDO, PHP Data Objects) : 데이터베이스 프로그램 추상화 계층. Php 내장 기능
+- PDO 인수 설명
+    - 첫번째 인자 : 데이터 원본 네임(DSN, Data Source Name), key=value 형태로 세미콜론으로 이어붙임
+    - 두번째 인자 : 사용자명
+    - 세번째 인자 : 패스워드
+- PDO 오류모드 3가지 : 예외, 침묵, 경고
+    - 예외 : `$db->setAttribute(PDO::ATTR_ERRMODE, EPD::ERRMODE_EXCEPTION)`으로 설정하면 데이터베이스와 관련된 모든 문제를 빠짐없이 점검 가능. 이 모드는 PDO가 예외처리 하지 않으면 프로그램 실행이 중단됨
+    - 침묵 : 기본 상태로, PDO 메서드는 실행 중 문제가 생기면 false를 반환한다. 그래서 기본 침묵 모드에서는 exec()의 실행결과를 확인 후 false라면 PDO의 errorInfo() 메서를 이용해 오류 정보를 얻을 수 있음
+    - 경고 : `$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING)`을 지정하면 경고모드로 실행. 이 모드는 침묵 모드와 마찬가지로 예외를 발생시키지 않으며 오류 발생 시 false를 반환하지만 PHP 엔진이 경고 수준의 오류 메시지 생성함. 이 메시지는 오류 처리 설정에 따라 화면 또는 로그파일로 출력됨. 12장에서 오류메시지가 출력될 위치를 제어하는 방법 안내
+- exec()의 반환값 : 오류 시 false를 반환하나,쿼리가 성공적으로 실행되어도 반영된 로우가 없으면 0을 반환하므로 반드시 삼중 등호(`===`)를 이용해 검증해야함
+- 데이터 삽입 보안 : Prepared 구문을 통해 쿼리 실행을 두 단계로 분리하여, 원치않은 sql 주입 공격에 방어할 수 있음
+
+##### 데이터 조회
+- query() : 데이터 조회를 위한 메서드
+- fetch() : 조회결과가 존재하면 데이터에 대한 배열, 더이상 존재하지 않으면 거짓 반환. 배열에 대한 접근은 컬럼명 혹은 인덱스 순서로 가능
+- rowCount() : 쿼리가 반환하는 모든 로우를 가져와서 개수를 셈 (대용량 데이터 조회 시에는 native count(*) 쿼리 사용하는 게 나음)
+- fetchAl() : 조회한 데이터를 한번에 가져와 배열에 넣음
+- 쿼리 결과가 단 건일 경우 : query()와 fetch() 메서드를 한번에 사용할 수 있음. ex) `$db->query(‘쿼리문’)->fetch();` //TODO 마찬가지로 fetchAll()도 가능한거 아닌가?
+- 데이터 반환 배열의 키 형식 변경 : PDO는 데이터를 배열로 반환할 때 기본적으로 키 유형을 숫자키와 문지열키 방식을 제공하는데, 설정에 따라 숫자키, 문자열키, 객체로 지정할 수 있음
+    - fetch(), fetchAll() 단위로 변경 : PDO fetch(), fetchAll()할 때 첫번째 인수에 원하는 방식을 전달할 수 있음. 숫자키 배열(PDO::FETCH_NUM), 문자키 배열(PDO::FETCH_ASSOC), 객체(PDO::FETCH_OBJ) 중 하나의 형식으로 설정가능
+    - 쿼리 단위로 변경(setFetchMode()) : 하나의 쿼리에 대해 기본 방식 설정을 변경하려면 PDOStatement 객체의 setFetchMode()를 호출함 
+      ```
+      $q = $db->query(‘쿼리문’); $q->setFetchMode(PDO::FETCH_NUM);
+      ```
+    - 데이터베이스 접속 객체 단위로 변경(setAttribute()를 설정하면 setFetchMode(), fetch()에 아무 값도 넣을 필요 없음)
+      ```
+      $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO:GETCH_NUM);
+      ```
+- SQL 안전하게 전달하기
+    - PHP 내장함수 strtr() : SQL의 와일드카드인 %와 _를 역슬래시로 이스케이프함
+    - PDO queto() : 문자열을 따옴표로 감싸서 처리
+    - 예제 
+      ```
+      $dish = $db->quote($_POST{‘dish_name’]);
+       $dish = strtr($dish, array(‘_’ => ‘\_’, ‘%’ => ‘\%’)); 
+      $db->exec(“UPDATE ~~~ WHERE dish_name LIKE $dish”);
+      ```
+    - //TODO 왜 queto(), strtr()를 사용할 때에는 ? 자리지시자 사용못하고 변수명 써야하지??
