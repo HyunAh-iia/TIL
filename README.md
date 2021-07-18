@@ -15,6 +15,8 @@
 ##### Java
 - [Java로 알아보는 느슨한 결합(IoC, DIP, DI, IoC Container)](https://github.com/HyunAh-iia/study-ioc)
 
+##### AWS
+- [AWS 계정들간에 자원 공유하는 방식 정리(EC2, RDS, ACM, Route53)](AWS/share-between-accounts/README.md)
 ##### HTTP
 - [인터넷 네트워크(통신, IP, TCP, UDP, PORT, DNS)](http/internet-network)
 - [URI와 웹 브라우즈 요청 흐름](http/uri-and-web-browser)
