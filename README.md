@@ -61,5 +61,6 @@
 ##### intelliJ
 - [인텔리제이 마크다운 미리보기가 안보일 때](/intellij/intelij-markdown-preview가-안보일때/intelij-markdown-preview가-안보일때.md)
 
-##### REST
+##### 설계
+- [클린코드 요약 정리](/cleancode/01-clean-code.md)
 - [RESTful API를 위한 6가지 원칙과 네이밍](/rest-api/RESTful-API를-위한-6가지-원칙과-네이밍.md)
